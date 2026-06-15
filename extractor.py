@@ -115,7 +115,7 @@ def classify_head(particulars):
         return "INTEREST"
     if any(kw in p for kw in ["LIC OF INDIA", "LIFE INSURANCE CORPORATIO", "LIFE INSURANCE CORPORATION OF INDIA"]):
         return "LIC"
-    if any(kw in p for kw in ["TAX REFUND", "TAXREFUND"):
+    if any(kw in p for kw in ["TAX REFUND", "TAXREFUND"]):
         return "TAX REFUND"
 
     for head, kws in HEAD_RULES.items():
