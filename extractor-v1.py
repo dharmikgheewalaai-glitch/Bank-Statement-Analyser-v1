@@ -177,7 +177,7 @@ def table_to_transactions(table, meta, page_no=None):
         row_dict = {k: v for k, v in zip_longest(std_headers, row_cells, fillvalue="")}
 
         date        = row_dict.get("date", "").strip() or None
-        particulars = row_dict.get("particulars", "").strip()
+        particulars = re.sub(r'\s+', ' ', row_dict.get("particulars", "")).strip()
         debit_raw   = row_dict.get("debit", "")
         credit_raw  = row_dict.get("credit", "")
         balance_raw = row_dict.get("balance", "")
