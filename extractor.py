@@ -99,7 +99,7 @@ def classify_head(particulars):
 
     if any(kw in p for kw in ["BAJAJ FINANCE LIMITE", "BAJAJ FINANCE LTD", "BAJAJFIN"]):
         return "BAJAJ FINANCE LTD"
-    if any(kw in p for kw in ["CGST", "CHARGES", "CHGS", "CHRG", "SGST", "GST"]):
+    if any(kw in p for kw in ["CGST", "CHARGES", "CHGS", "CHRG", "SGST"]):
         return "CHARGES"
     if any(kw in p for kw in ["PETROL", "PETROLEUM"]):
         return "CONVEYANCE"
