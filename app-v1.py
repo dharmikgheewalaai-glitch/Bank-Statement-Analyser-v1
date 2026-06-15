@@ -2,7 +2,14 @@ import streamlit as st
 import pandas as pd
 import re
 import io
-from extractor import process_file
+import importlib.util, os
+_p = next((f for f in ["extractor.py","extractor-v1.py"] if os.path.exists(f)), None)
+if _p:
+    _s = importlib.util.spec_from_file_location("extractor", _p)
+    _m = importlib.util.module_from_spec(_s); _s.loader.exec_module(_m)
+    process_file = _m.process_file
+else:
+    raise ImportError("extractor not found")
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
