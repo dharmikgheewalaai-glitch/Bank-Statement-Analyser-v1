@@ -75,6 +75,12 @@ if uploaded_file is not None:
     if "Page" in df_final.columns:
         df_final.drop(columns=["Page"], inplace=True)
 
+    # Collapse internal whitespace in all string columns (fixes multi-line PDF cells)
+    for col in df_final.select_dtypes(include="object").columns:
+        df_final[col] = df_final[col].apply(
+            lambda x: re.sub(r'\s+', ' ', str(x)).strip() if pd.notna(x) else x
+        )
+
     # Reorder: Date, Particulars, Debit, Credit, Balance, Head
     preferred_order = ["Date", "Particulars", "Debit", "Credit", "Balance", "Head"]
     existing_cols = [c for c in preferred_order if c in df_final.columns]
