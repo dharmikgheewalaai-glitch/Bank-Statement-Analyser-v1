@@ -73,7 +73,7 @@ def parse_amount(s):
     if s is None:
         return None
     s = str(s).strip().replace('\xa0', ' ').replace('INR', '').replace('Rs.', '').replace('Rs', '')
-    s = re.sub(r'[^\d\-,.\s]', '', s).replace(' ', '').replace(',', '')
+    s = re.sub(r'[^\d\-,.\s]', '', s).replace('', '').replace(',', '')
     if s in ('', '-'):
         return None
     try:
@@ -99,7 +99,7 @@ def classify_head(particulars):
 
     if any(kw in p for kw in ["BAJAJ FINANCE LIMITE", "BAJAJ FINANCE LTD", "BAJAJFIN"]):
         return "BAJAJ FINANCE LTD"
-    if any(kw in p for kw in ["CGST", "CHARGES", "CHGS", "CHRG", "SGST"]):
+    if any(kw in p for kw in ["CGST", "CHARGES", "CHGS", "CHRG", "SGST", "GST"]):
         return "CHARGES"
     if any(kw in p for kw in ["PETROL", "PETROLEUM"]):
         return "CONVEYANCE"
@@ -177,7 +177,7 @@ def table_to_transactions(table, meta, page_no=None):
         row_dict = {k: v for k, v in zip_longest(std_headers, row_cells, fillvalue="")}
 
         date        = row_dict.get("date", "").strip() or None
-        particulars = re.sub(r'\s+', '', row_dict.get("particulars", "")).strip()
+        particulars = row_dict.get("particulars", "").strip()
         debit_raw   = row_dict.get("debit", "")
         credit_raw  = row_dict.get("credit", "")
         balance_raw = row_dict.get("balance", "")
@@ -254,7 +254,7 @@ def text_fallback_extract(page_text, meta, page_no=None):
 
         txns.append({
             "Date":        date,
-            "Particulars": re.sub(r'\s+', '', ln).strip(),
+            "Particulars": ln,
             "Debit":       debit_amt,
             "Credit":      credit_amt,
             "Head":        classify_head(ln),
